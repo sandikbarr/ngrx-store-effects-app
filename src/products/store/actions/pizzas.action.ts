@@ -38,5 +38,34 @@ export class CreatePizzaSuccess implements Action {
   readonly type = CREATE_PIZZA_SUCCESS;
   constructor(public payload: Pizza) {}
 }
+
+export const UPDATE_PIZZA = '[Products] Update Pizza';
+export const UPDATE_PIZZA_FAILURE = '[Products] Update Pizza Failure';
+export const UPDATE_PIZZA_SUCCESS = '[Products] Update Pizza Success';
+
+export class UpdatePizza implements Action {
+  readonly type = UPDATE_PIZZA;
+  constructor(public payload: Pizza) {}
+}
+
+export class UpdatePizzaFailure implements Action {
+  readonly type = UPDATE_PIZZA_FAILURE;
+  constructor(public payload: any) {}
+}
+
+export class UpdatePizzaSucess implements Action {
+  readonly type = UPDATE_PIZZA_SUCCESS;
+  constructor(public payload: Pizza) {}
+}
+
 // action types
-export type PizzasAction = LoadPizzas | LoadPizzasFailure | LoadPizzasSuccess | CreatePizza | CreatePizzaFailure | CreatePizzaSuccess;
+export type PizzasAction =
+  | LoadPizzas
+  | LoadPizzasFailure
+  | LoadPizzasSuccess
+  | CreatePizza
+  | CreatePizzaFailure
+  | CreatePizzaSuccess
+  | UpdatePizza
+  | UpdatePizzaFailure
+  | UpdatePizzaSucess;
