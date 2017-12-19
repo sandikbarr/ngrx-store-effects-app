@@ -6,6 +6,7 @@ import { map, switchMap, catchError } from 'rxjs/operators';
 
 import * as pizzaActions from '../actions/pizzas.action';
 import * as fromServices from '../../services';
+import { CreatePizzaFailure } from 'src/products/store';
 
 @Injectable()
 export class PizzasEffects {
@@ -19,6 +20,19 @@ export class PizzasEffects {
         .pipe(
           map(pizzas => new pizzaActions.LoadPizzasSuccess(pizzas)),
           catchError(error => of(new pizzaActions.LoadPizzasFailure(error)))
+        );
+    })
+  );
+
+  @Effect()
+  createPizza$ = this.actions$.ofType(pizzaActions.CREATE_PIZZA).pipe(
+    map((action: pizzaActions.CreatePizza) => action.payload),
+    switchMap(pizza => {
+      return this.pizzaService
+        .createPizza(pizza)
+        .pipe(
+          map(pizza => new pizzaActions.CreatePizzaSuccess(pizza)),
+          catchError(error => of(new pizzaActions.CreatePizzaFailure(error)))
         );
     })
   );
