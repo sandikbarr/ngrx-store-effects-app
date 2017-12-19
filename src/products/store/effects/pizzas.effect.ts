@@ -44,9 +44,24 @@ export class PizzasEffects {
       return this.pizzaService
         .updatePizza(pizza)
         .pipe(
-          map(pizza => new pizzaActions.CreatePizzaSuccess(pizza)),
+          map(pizza => new pizzaActions.UpdatePizzaSuccess(pizza)),
           catchError(error => of(new pizzaActions.UpdatePizzaFailure(error)))
         );
+    })
+  );
+
+  @Effect()
+  removePizza$ = this.actions$.ofType(pizzaActions.REMOVE_PIZZA).pipe(
+    map((action: pizzaActions.RemovePizza) => action.payload),
+    switchMap(pizza => {
+      const removedPizza = { ...pizza };
+      return this.pizzaService.removePizza(pizza).pipe(
+        map(pizza => {
+          // TODO: pizza is now empty object, so I've shallow copied it to deletedPizza
+          return new pizzaActions.RemovePizzaSuccess(removedPizza);
+        }),
+        catchError(error => of(new pizzaActions.RemovePizzaFailure(error)))
+      );
     })
   );
 }
